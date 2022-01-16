@@ -26,7 +26,7 @@ async function fetch_md_handler(args: string[]): Promise<string> {
         const content = await res.text();
         return content;
     } catch (err) {
-        return `<!-- [Markdown Hack] ^MD Error: ${err} -->`;
+        return `<!-- [dynamic.md] ^MD Error: ${err} -->`;
     }
 }
 
@@ -43,7 +43,7 @@ async function fetch_json_handler(args: string[]): Promise<string> {
         }
         return JSON.stringify(target, null, indent);
     } catch (err) {
-        return `<!-- [Markdown Hack] ^JSON Error: ${err} -->`;
+        return `<!-- [dynamic.md] ^JSON Error: ${err} -->`;
     }
 }
 
@@ -61,7 +61,7 @@ async function fetch_yaml_handler(args: string[]): Promise<string> {
         }
         return yaml.dump(target, { indent });
     } catch (err) {
-        return `<!-- [Markdown Hack] ^YAML Error: ${err} -->`;
+        return `<!-- [dynamic.md] ^YAML Error: ${err} -->`;
     }
 }
 
@@ -71,7 +71,7 @@ async function fetch_txt_handler(args: string[]): Promise<string> {
         const content = await res.text();
         return content;
     } catch (err) {
-        return `<!-- [Markdown Hack] ^TXT Error: ${err} -->`;
+        return `<!-- [dynamic.md] ^TXT Error: ${err} -->`;
     }
 }
 
