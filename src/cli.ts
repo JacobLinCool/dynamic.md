@@ -15,17 +15,26 @@ program
     .option("-o, --output <directory>", "output directory, default is current directory", "")
     .option("-f, --force", "force overwrite existing files")
     .action(async (paths?: string[]) => {
-        const start_time = Date.now();
         const output_dir = resolve(process.cwd(), program.opts().output);
 
         process.stdout.write(chalk`Output directory: {yellowBright ${output_dir}}\n`);
 
         if (!paths || paths.length === 0) {
+            if (!existsSync(resolve(process.cwd(), ".mdocs"))) {
+                process.stdout.write(chalk`{bgRedBright Error} .mdocs directory not found.\n`);
+                process.stdout.write(chalk`Would you like to create .mdocs under current directory? {yellowBright (y/n)} `);
+                if (await wait_for_comfirm()) {
+                    mkdirSync(resolve(process.cwd(), ".mdocs"));
+                } else {
+                    process.exit(1);
+                }
+            }
             paths = [".mdocs"];
         }
 
-        const targets: File[] = [];
+        const start_time = Date.now();
 
+        const targets: File[] = [];
         paths.forEach((path) => {
             const root = resolve(process.cwd(), path);
             const sources = read_recursive(resolve(process.cwd(), path));
@@ -42,7 +51,7 @@ program
             process.stdout.write(chalk`Progress: {yellowBright ${target.source}}\n       -> {yellowBright ${target.output}}\n`);
 
             if (existsSync(target.output) && !program.opts().force) {
-                process.stdout.write(`${chalk.yellowBright(basename(target.output))} already exists, overwrite? (y/n) `);
+                process.stdout.write(chalk`{yellowBright ${basename(target.output)}} already exists, overwrite? {yellowBright (y/n)} `);
                 const ans = await wait_for_comfirm();
                 if (!ans) {
                     process.stdout.write(chalk.blueBright("Skipped.\n"));
@@ -63,7 +72,9 @@ program
         const time = (Date.now() - start_time) / 1000;
 
         process.stdout.write(
-            chalk`{yellowBright ${targets.length}} Tasks Finished in {cyanBright ${time}} second${time === 1 ? "" : "s"}.\n`,
+            chalk`{yellowBright ${targets.length}} Task${targets.length === 1 ? "" : "s"} Finished in {cyanBright ${time}} second${
+                time === 1 ? "" : "s"
+            }.\n`,
         );
         process.stdin.destroy();
     });
