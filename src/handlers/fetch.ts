@@ -19,7 +19,7 @@ async function fetch_handler(args: string[]): Promise<string> {
 
 async function fetch_md_handler(args: string[]): Promise<string> {
     try {
-        if (process.env.MARKDOWN_HACK_REMOTE_EXECUTE !== "true") {
+        if (process.env.DMD_REMOTE_EXECUTE !== "true") {
             return fetch_txt_handler(args);
         }
         const res = await fetch(args[0]);

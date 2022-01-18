@@ -83,7 +83,7 @@ ${readFileSync("LICENSE", "utf8")}
 \`\`\`
 `;
 
-describe("integration: hack", () => {
+describe("integration: dmd", () => {
     it("should parse the markdown correctly", async () => {
         const result = await dmd(markdown);
         expect(result).toEqual(correct);

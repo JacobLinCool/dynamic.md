@@ -11,7 +11,7 @@ const package_json = JSON.parse(readFileSync(resolve(__dirname, "..", "package.j
 program.version(chalk`${package_json.name} {yellowBright ${package_json.version}}\n${package_json.description}`);
 
 program
-    .argument("[paths...]", "files or directories to hack, if none given, will use .mdocs under current directory")
+    .argument("[paths...]", "files or directories to inject, if none given, will use .mdocs under current directory")
     .option("-o, --output <directory>", "output directory, default is current directory", "")
     .option("-f, --force", "force overwrite existing files")
     .action(async (paths?: string[]) => {
@@ -60,13 +60,13 @@ program
             }
 
             const content = readFileSync(target.source, "utf8");
-            const hacked = await dmd(content);
+            const injected = await dmd(content);
 
             if (!existsSync(target.output)) {
                 mkdirSync(dirname(target.output), { recursive: true });
             }
 
-            writeFileSync(target.output, hacked);
+            writeFileSync(target.output, injected);
         }
 
         const time = (Date.now() - start_time) / 1000;
