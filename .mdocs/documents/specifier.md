@@ -248,5 +248,5 @@ This specifier will make the handler escape it (and remove the specifier).
 ### `X` Example
 
 ```md
-<!-- X % package.json license -->
+<!-- X X % package.json license -->
 ```

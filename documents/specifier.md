@@ -242,11 +242,11 @@ This specifier will make the handler escape it (and remove the specifier).
 ### `X` Usage
 
 ```md
-<!-- [something] [that] [will] [be] [treated] [like] [a] [injectable] [thing] -->
+<!-- [something] [that] [will] [be] [treated] [like] [a] [hackable] [thing] -->
 ```
 
 ### `X` Example
 
 ```md
-<!-- % package.json license -->
+<!-- X % package.json license -->
 ```
